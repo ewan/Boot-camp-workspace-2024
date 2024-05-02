@@ -15,4 +15,5 @@ X = df[["balance", "income"]].values
 y = np.asarray([{"Yes": 1., "No": 0.}[x] for x in df["default"]])
 
 m = minimize(nll, np.random.rand(3,), args=(X, y), method="L-BFGS-B")
+print(m)
 

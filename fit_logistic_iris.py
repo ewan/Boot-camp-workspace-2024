@@ -1,7 +1,10 @@
+print("Here")
 import pandas as pd
 import torch
 import numpy as np
 import sys
+
+print("Here")
 
 def accuracy(z, y):
     with torch.no_grad():
@@ -20,10 +23,12 @@ y_train = np.asarray([{"Virginica": 1, "Setosa": 0, "Versicolor": 0}[y] for y in
 
 X_test = test[["sepal.length", "sepal.width", "petal.length", "petal.width"]].values
 y_test = np.asarray([{"Virginica": 1, "Setosa": 0, "Versicolor": 0}[y] for y in test["variety"]])
+print("Here")
 
 dtype = torch.float
 torch.set_default_device("cpu")
 
+print("Here")
 X_train_t = torch.tensor(X_train, dtype=dtype)
 y_train_t = torch.tensor(y_train, dtype=dtype)
 
@@ -35,7 +40,9 @@ b4 = torch.randn((), dtype=dtype, requires_grad=True)
 
 learning_rate = 0.001
 
+print("Here")
 for e in range(5):
+    print("Here now")
     z = b0 + b1*X_train_t[:,0] + b2*X_train_t[:,1] + b3*X_train_t[:,2] + b4*X_train_t[:,2]
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z

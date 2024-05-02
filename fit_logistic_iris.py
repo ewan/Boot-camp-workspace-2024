@@ -35,6 +35,7 @@ for e in range(5):
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z
     loss = (lax - yz).sum()
+    print(loss.item())
     loss.backward(retain_graph=True)
     with torch.no_grad():
         b0 -= learning_rate*b0.grad

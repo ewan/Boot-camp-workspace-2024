@@ -1,6 +1,7 @@
 import pandas as pd
 import torch
 import numpy as np
+import sys
 
 def accuracy(z, y):
     with torch.no_grad():
@@ -34,12 +35,14 @@ b4 = torch.randn((), dtype=dtype, requires_grad=True)
 
 learning_rate = 0.0001
 
-for e in range(5):
+for e in range(5000):
     z = b0 + b1*X_train_t[:,0] + b2*X_train_t[:,1] + b3*X_train_t[:,2] + b4*X_train_t[:,2]
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z
     loss = (lax - yz).sum()
+    if (e % 100 == 1)
     print(loss.item(), accuracy(z, y_train_t))
+    sys.stdout.flush()
     loss.backward(retain_graph=True)
     with torch.no_grad():
         b0 -= learning_rate*b0.grad

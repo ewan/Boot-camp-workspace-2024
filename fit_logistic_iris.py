@@ -40,9 +40,9 @@ for e in range(5000):
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z
     loss = (lax - yz).sum()
-    if (e % 100 == 1)
-    print(loss.item(), accuracy(z, y_train_t))
-    sys.stdout.flush()
+    if (e % 100 == 1):
+        print(loss.item(), accuracy(z, y_train_t))
+        sys.stdout.flush()
     loss.backward(retain_graph=True)
     with torch.no_grad():
         b0 -= learning_rate*b0.grad

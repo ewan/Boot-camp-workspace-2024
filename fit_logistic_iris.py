@@ -2,6 +2,10 @@ import pandas as pd
 import torch
 import numpy as np
 
+def accuracy(z, y):
+    with torch.no_grad():
+        return ((z.item() >= 0.5) * y).sum()
+
 np.random.seed(42)
 
 iris = pd.read_csv("iris.csv")
@@ -35,7 +39,7 @@ for e in range(5):
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z
     loss = (lax - yz).sum()
-    print(loss.item())
+    print(loss.item(), accuracy(z, y))
     loss.backward(retain_graph=True)
     with torch.no_grad():
         b0 -= learning_rate*b0.grad

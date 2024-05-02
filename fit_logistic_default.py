@@ -7,7 +7,7 @@ def nll(theta, X, y):
     z = np.insert(X, 0, 1, 1).dot(theta)
     yz = z*y
     log1pexpz = np.logaddexp(z, np.zeros((X.shape[0])))
-    return np.sum(log1pexpz - yz)
+    return np.sum(log1pexpz - yz) 
 
 datafile = sys.argv[1]
 df = pd.read_csv(datafile)

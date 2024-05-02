@@ -4,7 +4,7 @@ import numpy as np
 
 def accuracy(z, y):
     with torch.no_grad():
-        return ((z >= 0.5) * y).sum()
+        return ((z >= 0.5) * y).mean()
 
 np.random.seed(42)
 

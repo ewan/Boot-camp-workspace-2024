@@ -36,7 +36,7 @@ b4 = torch.randn((), dtype=dtype, requires_grad=True)
 
 learning_rate = 0.01
 
-for e in range(5000):
+for e in range(20000):
     z = b0 + b1*X_train_t[:,0] + b2*X_train_t[:,1] + b3*X_train_t[:,2] + b4*X_train_t[:,2]
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z

@@ -42,6 +42,6 @@ for e in range(20000):
     loss.backward(retain_graph=True)
     with torch.no_grad():
         for p in lin.parameters():
-            p -= learning_rate*p.grad
+            p_new = p - learning_rate*p.grad
+            p.copy_(p_new)
             p.grad = None
-

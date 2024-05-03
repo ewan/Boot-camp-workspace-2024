@@ -47,14 +47,14 @@ reviews_glove_pooled = np.concatenate(reviews_glove_pooled_l).reshape((-1,50))
 
 dtype = torch.float
 torch.set_default_device("cpu")
-X = torch.tensor(reviews_glove_pooled)
+X = torch.tensor(reviews_glove_pooled, dtype=dtype)
 y = torch.tensor([{"positive": 1, "negative": 0}[x] for x in imdb['sentiment']], dtype=dtype)
 
 lin1 = torch.nn.Linear(50, 25, dtype=dtype)
 lin2 = torch.nn.Linear(25, 1, dtype=dtype)
 
 loss_fn = torch.nn.BCEWithLogitsLoss()
-optimizer = torch.optim.Adam(list(lin1.parameters()) + list(lin2.parameters()), lr=0.001)
+optimizer = torch.optimp.Adam(list(lin1.parameters()) + list(lin2.parameters()), lr=0.001)
 
 print("Optimizing...")
 for e in range(2000):

@@ -45,7 +45,7 @@ torch.set_default_device("cpu")
 #X = torch.tensor(reviews_glove_pooled, dtype=dtype)
 y = torch.tensor([{"positive": 1, "negative": 0}[x] for x in imdb['sentiment']], dtype=dtype)
 
-hid_size = 128
+hid_size = 32
 
 rnn = torch.nn.RNN(50, hid_size, dtype=dtype)
 M = torch.nn.Linear(hid_size, 1, dtype=dtype)

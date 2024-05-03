@@ -54,7 +54,7 @@ lin1 = torch.nn.Linear(50, 25, dtype=dtype)
 lin2 = torch.nn.Linear(25, 1, dtype=dtype)
 
 loss_fn = torch.nn.BCEWithLogitsLoss()
-optimizer = torch.optimize.Adam(list(lin1.parameters()) + list(lin2.parameters()), lr=0.001)
+optimizer = torch.optim.Adam(list(lin1.parameters()) + list(lin2.parameters()), lr=0.001)
 
 print("Optimizing...")
 for e in range(2000):

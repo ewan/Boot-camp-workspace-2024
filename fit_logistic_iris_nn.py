@@ -34,8 +34,8 @@ loss_fn = torch.nn.BCEWithLogitsLoss()
 
 learning_rate = 0.01
 
-optimizer = torch.optim.Adam([lin1.parameters(),
-                              lin2.parameters()], lr=learning_rate)
+optimizer = torch.optim.Adam(list(lin1.parameters()) + 
+                              list(lin2.parameters()), lr=learning_rate)
 
 for e in range(20000):
     optimizer.zero_grad()

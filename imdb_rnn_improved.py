@@ -82,10 +82,10 @@ def collate_fn(data):
     return X_ps, y_t
 
 reviews_glove_t = [torch.tensor(r, dtype=dtype) for r in reviews_glove]
-
+batch_size = 16
 loader = torch.utils.data.DataLoader(
     ReviewDataset(reviews_glove_t, y_train),
-    batch_size=8,
+    batch_size=batch_size,
     collate_fn=collate_fn,
     shuffle=True
 )
@@ -98,8 +98,8 @@ for e in range(2000):
         z = do_rnn(X)
         loss = loss_fn(z, y)
         sum_of_loss_for_printing += loss.item()
-        if (t % 5 == 1):
-            print(e, t, sum_of_loss_for_printing/5)
+        if (t % 20 == 1):
+            print(e, t*batch_size, sum_of_loss_for_printing/5)
             sum_of_loss_for_printing = 0
         loss.backward()
         optimizer.step()

@@ -98,8 +98,8 @@ for e in range(1):
         z = do_rnn(X)
         loss = loss_fn(z, y)
         sum_of_loss_for_printing += loss.item()
-        if (t % 20 == 1):
-            print(e, t*batch_size, sum_of_loss_for_printing/20)
+        if (t % 50 == 1):
+            print(e, t*batch_size, sum_of_loss_for_printing/50)
             sum_of_loss_for_printing = 0
         loss.backward()
         optimizer.step()

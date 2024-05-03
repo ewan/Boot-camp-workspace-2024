@@ -64,7 +64,8 @@ def do_rnn(X):
 
 print("Optimizing...")
 for e in range(2000):
-    shuffled_indices = np.random.shuffle(list(range(len(reviews_glove))))
+    indices = list(range(len(reviews_glove)))
+    np.random.shuffle(indices)
     sum_of_loss_for_printing = 0
     for i in shuffled_indices:
         optimizer.zero_grad()

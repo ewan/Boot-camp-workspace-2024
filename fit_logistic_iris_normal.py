@@ -29,14 +29,15 @@ y_train_t = torch.tensor(y_train, dtype=dtype)
 
 lin = torch.nn.Linear(4, 1, bias=True, dtype=dtype)
 
+loss_fn = torch.nn.BCEWithLogitsLoss()
+
 learning_rate = 0.01
+
 
 for e in range(20000):
     lin.zero_grad()
     z = lin(X_train_t).squeeze()
-    lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
-    yz = y_train_t * z
-    loss = (lax - yz).sum()
+    loss = loss_fn(z, y_train_t)
     if (e % 100 == 1):
         print(loss.item(), accuracy(z, y_train_t))
         sys.stdout.flush()

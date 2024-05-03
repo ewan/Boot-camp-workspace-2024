@@ -24,7 +24,7 @@ glove = {}
 with open("glove_imdb.6B.50d.txt") as hf:
     for line in hf:
         word = line.split()[0]
-        vector = np.array(line.split()[2:], dtype="float16")
+        vector = np.array(line.split()[1:], dtype="float16")
         glove[word] = vector
 
 print("Converting reviews to glove...")

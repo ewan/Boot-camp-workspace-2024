@@ -81,8 +81,10 @@ def collate_fn(data):
     y_t = torch.stack(y_sorted).squeeze()
     return X_ps, y_t
 
+reviews_glove_t = [torch.tensor(r, dtype=dtype) for r in reviews_glove]
+
 loader = torch.utils.data.DataLoader(
-    ReviewDataset(reviews_glove, y_train),
+    ReviewDataset(reviews_glove_t, y_train),
     batch_size=8,
     collate_fn=collate_fn,
     shuffle=True

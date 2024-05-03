@@ -67,7 +67,7 @@ for e in range(2000):
     indices = list(range(len(reviews_glove)))
     np.random.shuffle(indices)
     sum_of_loss_for_printing = 0
-    for i in shuffled_indices:
+    for i in indices:
         optimizer.zero_grad()
         X_i = torch.tensor(reviews_glove[i], dtype=dtype)
         z = do_rnn(X_i)

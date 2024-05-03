@@ -91,7 +91,7 @@ loader = torch.utils.data.DataLoader(
 )
 
 print("Optimizing...")
-for e in range(2000):
+for e in range(1):
     sum_of_loss_for_printing = 0
     for t, (X,y) in enumerate(loader):
         optimizer.zero_grad()
@@ -99,8 +99,17 @@ for e in range(2000):
         loss = loss_fn(z, y)
         sum_of_loss_for_printing += loss.item()
         if (t % 20 == 1):
-            print(e, t*batch_size, sum_of_loss_for_printing/5)
+            print(e, t*batch_size, sum_of_loss_for_printing/20)
             sum_of_loss_for_printing = 0
         loss.backward()
         optimizer.step()
+
+with torch.no_grad():
+    n_correct = 0
+    for t, (X, y) in enumerate(loader):
+        z = do_rnn(X)
+        pred = torch.squeeze(z).detach().numpy() > 0
+        y_np = torch.squeeze(y).detach().numpy()
+        n_correct += (pred == y_np).sum()
+print("Train accuracy: ", n_correct/len(reviews_glove))
 

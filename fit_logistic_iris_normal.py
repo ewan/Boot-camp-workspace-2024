@@ -33,16 +33,14 @@ loss_fn = torch.nn.BCEWithLogitsLoss()
 
 learning_rate = 0.01
 
+optimizer = torch.optim.Adam(lin.parameters(), lr=learning_rate)
 
 for e in range(20000):
-    lin.zero_grad()
+    optimizer.zero_grad()
     z = lin(X_train_t).squeeze()
     loss = loss_fn(z, y_train_t)
     if (e % 100 == 1):
         print(loss.item(), accuracy(z, y_train_t))
         sys.stdout.flush()
     loss.backward(retain_graph=True)
-    with torch.no_grad():
-        for p in lin.parameters():
-            p_new = p - learning_rate*p.grad
-            p.copy_(p_new)
+    optimizer.step()

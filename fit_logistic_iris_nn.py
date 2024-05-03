@@ -32,7 +32,7 @@ lin2 = torch.nn.Linear(2, 1, bias=True, dtype=dtype)
 
 loss_fn = torch.nn.BCEWithLogitsLoss()
 
-learning_rate = 0.1
+learning_rate = 0.01
 
 optimizer = torch.optim.Adam(list(lin1.parameters()) + 
                               list(lin2.parameters()), lr=learning_rate)

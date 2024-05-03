@@ -25,6 +25,7 @@ with open("glove_imdb.6B.50d.txt") as hf:
         vector = np.array(line.split()[2:], dtype="float16")
         glove[word] = vector
 
+print("Converting reviews to glove...")
 reviews_glove = []
 for review in reviews:
     review_words = review.split()
@@ -52,12 +53,13 @@ lin2 = torch.nn.Linear(25, 1, dtype=dtype)
 loss_fn = torch.nn.BCEWithLogitsLoss()
 optimizer = torch.optimize.Adam(list(lin1.parameters()) + list(lin2.parameters()), lr=0.001)
 
+print("Optimizing...")
 for e in range(2000):
     optimizer.zero_grad()
     h1 = torch.nn.functional.sigmoid(lin1(X))
     z = lin2(h1).squeeze()
     loss = loss_fn(z, y)
-    if (e % 100 == 1):
+    if (e % 25 == 1):
         print(e, loss.item(), accuracy(z, y))
     loss.backward()
     optimizer.step()

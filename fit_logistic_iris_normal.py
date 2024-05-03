@@ -33,7 +33,7 @@ learning_rate = 0.01
 
 for e in range(20000):
     lin.zero_grad()
-    z = lin(X_train_t)
+    z = lin(X_train_t).squeeze()
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z
     loss = (lax - yz).sum()

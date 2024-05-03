@@ -32,6 +32,7 @@ lin = torch.nn.Linear(4, 1, bias=True, dtype=dtype)
 learning_rate = 0.01
 
 for e in range(20000):
+    lin.zero_grad()
     z = lin(X_train_t)
     lax = torch.logaddexp(torch.zeros(X_train_t.shape[0]), z)
     yz = y_train_t * z
@@ -39,7 +40,6 @@ for e in range(20000):
     if (e % 100 == 1):
         print(loss.item(), accuracy(z, y_train_t))
         sys.stdout.flush()
-    lin.zero_grad()
     loss.backward(retain_graph=True)
     with torch.no_grad():
         for p in lin.parameters():

@@ -43,7 +43,7 @@ for review in reviews:
 dtype = torch.float
 torch.set_default_device("cpu")
 #X = torch.tensor(reviews_glove_pooled, dtype=dtype)
-y = torch.tensor([{"positive": 1, "negative": 0}[x] for x in imdb['sentiment']], dtype=dtype)
+y_train = torch.tensor([{"positive": 1, "negative": 0}[x] for x in imdb['sentiment']], dtype=dtype)
 
 hid_size = 32
 
@@ -57,18 +57,48 @@ def do_rnn(X):
     z = M(rnn(X)[1]).squeeze()
     return z
 
+class ReviewDataset(torch.utils.data.Dataset):
+    def __init__(self, review_list, label_tensor):
+        self.review_list = review_list
+        self.label_tensor = label_tensor
+    
+    def __len__(self):
+        return len(self.review_list)
+    
+    def __getitem__(self, idx):
+        X = self.review_list[idx]
+        y = self.label_tensor[idx]
+        return X, y
+
+def collate_fn(data):
+    X, y = zip(*data)
+    lengths = [len(x) for x in X]
+    xy_sorted = [(x, lab) for _, x, lab in sorted(zip(lengths, X, y),
+                                      key=lambda x: x[0],
+                                      reverse=True)]
+    X_sorted, y_sorted = zip(*xy_sorted)
+    X_ps = torch.nn.utils.rnn.pack_sequence(X_sorted)
+    y_t = torch.stack(y_sorted).squeeze()
+    return X_ps, y_t
+
+loader = torch.utils.data.DataLoader(
+    ReviewDataset(reviews_glove, y_train),
+    batch_size=8,
+    collate_fn=collate_fn,
+    shuffle=True
+)
+
 print("Optimizing...")
 for e in range(2000):
-    indices = list(range(len(reviews_glove)))
-    np.random.shuffle(indices)
     sum_of_loss_for_printing = 0
-    for i in indices:
+    for t, (X,y) in enumerate(loader):
         optimizer.zero_grad()
-        X_i = torch.tensor(reviews_glove[i], dtype=dtype)
-        z = do_rnn(X_i)
-        loss = loss_fn(z, y[i].squeeze())
+        z = do_rnn(X)
+        loss = loss_fn(z, y)
         sum_of_loss_for_printing += loss.item()
+        if (t % 5 == 1):
+            print(e, t, sum_of_loss_for_printing/5)
+            sum_of_loss_for_printing = 0
         loss.backward()
         optimizer.step()
-    print(e, sum_of_loss_for_printing/len(indices))
 

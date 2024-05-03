@@ -39,9 +39,9 @@ for e in range(20000):
     if (e % 100 == 1):
         print(loss.item(), accuracy(z, y_train_t))
         sys.stdout.flush()
+    lin.zero_grad()
     loss.backward(retain_graph=True)
     with torch.no_grad():
         for p in lin.parameters():
             p_new = p - learning_rate*p.grad
             p.copy_(p_new)
-            p.grad = None

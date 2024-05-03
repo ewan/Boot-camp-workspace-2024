@@ -20,7 +20,6 @@ y_train = np.asarray([{"Virginica": 1, "Setosa": 0, "Versicolor": 0}[y] for y in
 
 X_test = test[["sepal.length", "sepal.width", "petal.length", "petal.width"]].values
 y_test = np.asarray([{"Virginica": 1, "Setosa": 0, "Versicolor": 0}[y] for y in test["variety"]])
-print("Here")
 
 dtype = torch.float
 torch.set_default_device("cpu")

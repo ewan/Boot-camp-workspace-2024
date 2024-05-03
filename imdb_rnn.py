@@ -75,5 +75,5 @@ for e in range(2000):
         sum_of_loss_for_printing += loss.item()
         loss.backward()
         optimizer.step()
-    print(e, sum_of_loss_for_printing/len(shuffled_indices))
+    print(e, sum_of_loss_for_printing/len(indices))
 

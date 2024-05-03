@@ -54,7 +54,7 @@ loss_fn = torch.nn.BCEWithLogitsLoss()
 optimizer = torch.optim.Adam(list(rnn.parameters()) + list(M.parameters()), lr=0.001)
 
 def do_rnn(X):
-    z = rnn(X).squeeze()
+    z = rnn(X)[1].squeeze()
     return z
 
 print("Optimizing...")

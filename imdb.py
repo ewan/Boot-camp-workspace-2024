@@ -3,6 +3,8 @@ import re
 import numpy as np
 import torch
 
+print("Starting...")
+
 def accuracy(pred_z, true):
     with torch.no_grad():
         return (pred_z*(true - 0.5) >= 0).float().mean()
@@ -44,6 +46,7 @@ for review in reviews_glove:
 reviews_glove_pooled = np.concatenate(reviews_glove_pooled_l).reshape((-1,50))
 
 dtype = torch.float
+torch.set_default_device("cpu")
 X = torch.tensor(reviews_glove_pooled)
 y = torch.tensor([{"positive": 1, "negative": 0}[x] for x in imdb['sentiment']], dtype=dtype)
 
